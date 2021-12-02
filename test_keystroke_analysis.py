@@ -7,7 +7,7 @@ from utils.read_data import read_password_measurements
 class TestKeystrokeAnalysis(unittest.TestCase):
 
     def test_input_1111(self):
-        pattern = read_password_measurements("data/clean_samples/input_1111.json")
+        pattern = read_password_measurements("data/simple_samples/input_1111.json")
         keystrokes_input = analyze_pattern_for_keystrokes(pattern)
         self.assertEqual(4,
                          len(keystrokes_input),
@@ -23,7 +23,7 @@ class TestKeystrokeAnalysis(unittest.TestCase):
                          % (4, len(keys_correct_side)))
 
     def test_input_2222(self):
-        pattern = read_password_measurements("data/clean_samples/input_2222.json")
+        pattern = read_password_measurements("data/simple_samples/input_2222.json")
         keystrokes_input = analyze_pattern_for_keystrokes(pattern)
         self.assertEqual(4,
                          len(keystrokes_input),
@@ -38,7 +38,7 @@ class TestKeystrokeAnalysis(unittest.TestCase):
                          % (4, len(keys_correct_side)))
 
     def test_input_3333(self):
-        pattern = read_password_measurements("data/clean_samples/input_3333.json")
+        pattern = read_password_measurements("data/simple_samples/input_3333.json")
         keystrokes_input = analyze_pattern_for_keystrokes(pattern)
         self.assertEqual(4,
                          len(keystrokes_input),
