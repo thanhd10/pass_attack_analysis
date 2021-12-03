@@ -19,7 +19,7 @@ class TestKeystrokeAnalysis(unittest.TestCase):
                              or KeystrokeConfidence.IS_LEFT_HIGH in key.keystroke_confidences]
         self.assertEqual(4,
                          len(keys_correct_side),
-                         "Expected number of correct side of keys is %d, but %d keystrokes were only detected."
+                         "Expected number of correct side of keys is %d, but %d keystroke sides were only detected."
                          % (4, len(keys_correct_side)))
 
     def test_input_2222(self):
@@ -34,7 +34,7 @@ class TestKeystrokeAnalysis(unittest.TestCase):
                              if KeystrokeConfidence.IS_HIGH in key.keystroke_confidences]
         self.assertEqual(4,
                          len(keys_correct_side),
-                         "Expected number of correct side of keys is %d, but %d keystrokes were only detected."
+                         "Expected number of correct side of keys is %d, but %d keystroke sides were only detected."
                          % (4, len(keys_correct_side)))
 
     def test_input_3333(self):
@@ -50,5 +50,5 @@ class TestKeystrokeAnalysis(unittest.TestCase):
                              or KeystrokeConfidence.IS_RIGHT_HIGH in key.keystroke_confidences]
         self.assertEqual(4,
                          len(keys_correct_side),
-                         "Expected number of correct side of keys is %d, but %d keystrokes were only detected."
+                         "Expected number of correct side of keys is %d, but %d keystroke side were only detected."
                          % (4, len(keys_correct_side)))

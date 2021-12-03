@@ -5,8 +5,7 @@ import pandas as pd
 from scipy.signal import find_peaks
 
 from definitions import ACC_Z_MIN_CHANGE_VALLEY, ACC_Z_MAX_CHANGE_VALLEY, GYR_Y_MIN_CHANGE, GYR_X_MIN_CHANGE, \
-    ACC_Z_MIN_CHANGE_PEAK, ACC_Z_MAX_CHANGE_PEAK, SLIDING_FACTOR, WINDOW_ID_COL_NAME, WINDOW_SIZE, TIMESTAMP_COL, \
-    TRIM_BEGINNING_TIME, TRIM_ENDING_TIME
+    ACC_Z_MIN_CHANGE_PEAK, ACC_Z_MAX_CHANGE_PEAK, SLIDING_FACTOR, WINDOW_ID_COL_NAME, WINDOW_SIZE
 from utils.sliding_windows import create_sliding_windows
 
 
@@ -34,19 +33,16 @@ class Keystroke(object):
 
 
 def analyze_pattern_for_keystrokes(pattern: pd.DataFrame):
-    # Step 1: Remove button press for opening textfield and button press for stopping record
-    pattern = __remove_beginning_and_end(pattern)
-
-    # Step 2: Create sliding windows
+    # Step 1: Create sliding windows
     sliding_windows = create_sliding_windows(pattern, window_size=WINDOW_SIZE, sliding_factor=SLIDING_FACTOR)
     sliding_windows = [x for _, x in sliding_windows.groupby(WINDOW_ID_COL_NAME)]
 
-    # Step 3: Create calculate mean values
+    # Step 2: Create calculate mean values
     mean_acc_z = pattern['acc_z'].mean()
     mean_gyr_x = pattern['gyr_x'].mean()
     mean_gyr_y = pattern['gyr_y'].mean()
 
-    # Step 4: Detect keystrokes
+    # Step 3: Detect keystrokes
     analyzed_windows = [__check_for_keystroke(window, mean_acc_z, mean_gyr_x, mean_gyr_y)
                         for window in sliding_windows]
     keystroke_candidates = [keystroke for keystroke in analyzed_windows if
@@ -57,7 +53,7 @@ def analyze_pattern_for_keystrokes(pattern: pd.DataFrame):
 
     detected_keystrokes = []
 
-    # Step 5: Group overlapping windows of keystrokes
+    # Step 4: Group overlapping windows of keystrokes
     for keystroke_a, keystroke_b in zip(keystroke_candidates[:-1], keystroke_candidates[1:]):
         if keystroke_a in already_grouped:
             continue
@@ -78,11 +74,6 @@ def analyze_pattern_for_keystrokes(pattern: pd.DataFrame):
                                              end_time=keystroke_candidates[-1][2]))
 
     return detected_keystrokes
-
-
-def __remove_beginning_and_end(pattern: pd.DataFrame) -> pd.DataFrame:
-    return pattern[(pattern[TIMESTAMP_COL] >= TRIM_BEGINNING_TIME) &
-                   (pattern[TIMESTAMP_COL] <= (pattern[TIMESTAMP_COL].max() - TRIM_ENDING_TIME))]
 
 
 def __check_for_keystroke(window: pd.DataFrame,
