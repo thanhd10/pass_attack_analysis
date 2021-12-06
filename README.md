@@ -1,4 +1,4 @@
-**Inferring password attributes based on smartphone motion sensors**
+**Inferring Password Properties based on Zero-Permission Smartphone Sensors**
 
 *Internet of Things 2021 - University of Oulu*
 
